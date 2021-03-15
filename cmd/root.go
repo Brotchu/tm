@@ -1,8 +1,8 @@
 package cmd
 
-import "github.com/spf12/cobra"
+import "github.com/spf13/cobra"
 
-var RootCmd := &cobra.Command{
-	Use: "tm",
-	Short: "tm is cli Task Master",
+var RootCmd = &cobra.Command{
+	Use:   "tm",
+	Short: "tm is a CLI task manager",
 }
