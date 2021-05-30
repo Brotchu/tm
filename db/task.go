@@ -2,6 +2,7 @@ package db
 
 import (
 	"encoding/binary"
+	"errors"
 	"time"
 
 	"github.com/boltdb/bolt"
@@ -73,6 +74,29 @@ func DeleteTask(key int) error {
 		b := tx.Bucket(taskBucket)
 		return b.Delete(itob(key))
 	})
+}
+
+func GetTasks(key int) (Task, error) {
+	var task Task
+	err := db.View(func(tx *bolt.Tx) error {
+		b := tx.Bucket(taskBucket)
+		c := b.Cursor()
+		foundFlag := false
+		for k, v := c.First(); k != nil; k, v = c.Next() {
+			if btoi(k) == key {
+				foundFlag = true
+				task = Task{
+					Key:   btoi(k),
+					Value: string(v),
+				}
+			}
+		}
+		if !foundFlag {
+			return errors.New("Task not found")
+		}
+		return nil
+	})
+	return task, err
 }
 
 func itob(v int) []byte {
