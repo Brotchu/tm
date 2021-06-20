@@ -1,6 +1,7 @@
 package main
 //adding comment for  check
 //created new branch
+//new main branch
 import (
 	"fmt"
 	"os"
